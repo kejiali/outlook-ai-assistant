@@ -53,7 +53,28 @@ Office Add-ins load inside a restricted WebView. Keeping the stack as plain HTML
 
 ---
 
-## Setup
+## ⚠️ Data Privacy & Company Policy
+
+**Read this before use.**
+
+This add-in sends the content of your emails to an AI model for processing. Understand where your data goes before using it with work or sensitive emails.
+
+| Provider | Data destination |
+|----------|-----------------|
+| 🦞 **OpenClaw** | Depends entirely on your OpenClaw configuration — could be a local model (fully private), a self-hosted endpoint, or a cloud provider. Check your OpenClaw setup to understand your data flow. |
+| ⚡ **OpenAI** | Email content is transmitted to OpenAI's servers and processed under [OpenAI's privacy policy](https://openai.com/policies/privacy-policy). |
+
+### Before using this add-in at work:
+
+- **Check your employer's acceptable use and data classification policy.** Many organisations prohibit sending internal, confidential, or client data to third-party cloud services.
+- **Avoid sending sensitive content via the OpenAI route** — this includes client communications, financial data, personal information (PII), or anything marked confidential.
+- **Prefer the OpenClaw route for sensitive emails** if your OpenClaw instance is configured with a local or private model.
+- **You are responsible** for ensuring your use complies with applicable data protection laws (e.g. GDPR) and your organisation's policies.
+
+This tool is provided as-is for personal productivity use. The author assumes no liability for data handling by downstream providers.
+
+---
+
 
 ### Prerequisites
 
