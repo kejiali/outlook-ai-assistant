@@ -174,3 +174,9 @@ curl -sk https://localhost:3000/taskpane.html | head -3
 ## License
 
 MIT
+
+---
+
+## OpenClaw Users
+
+If you're using [OpenClaw](https://openclaw.ai), this repository includes a `SKILL.md` that lets your AI assistant install, configure, and troubleshoot this add-in for you — just point OpenClaw at the skill file and ask away.
