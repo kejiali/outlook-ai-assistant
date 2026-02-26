@@ -12,19 +12,21 @@ This skill helps you manage the Outlook AI Assistant add-in on macOS.
 
 ## Variables
 
-Set these based on the user's machine before running any commands:
+Before running any commands, discover the repo location automatically:
 
+```bash
+# Find the repo
+find ~ -name "manifest.xml" -path "*/outlook-ai-assistant/*" 2>/dev/null | head -1 | xargs dirname
 ```
-REPO_DIR  = /Users/<username>/Documents/github/outlook-ai-assistant
-PLIST     = ~/Library/LaunchAgents/<plist-filename>
-PLIST_SRC = <repo-dir>/<plist-filename>
+
+If that returns nothing, ask the user: **"Where did you clone the outlook-ai-assistant repo?"**
+
+Then set:
+```
+REPO_DIR = <discovered or user-provided path>
+PLIST_SRC = $REPO_DIR/<plist-filename>   # ls $REPO_DIR/*.plist
 SERVER    = https://localhost:3000
 ```
-
-> The plist filename is found in the repo root — it matches the launchd label inside the file. Check with:
-> ```bash
-> ls ~/Documents/github/outlook-ai-assistant/*.plist
-> ```
 
 ---
 
