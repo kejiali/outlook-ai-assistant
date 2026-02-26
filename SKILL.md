@@ -15,10 +15,16 @@ This skill helps you manage the Outlook AI Assistant add-in on macOS.
 Set these based on the user's machine before running any commands:
 
 ```
-REPO_DIR = /Users/<username>/Documents/github/outlook-ai-assistant
-PLIST    = ~/Library/LaunchAgents/com.kejiali.outlook-addin-server.plist
-SERVER   = https://localhost:3000
+REPO_DIR  = /Users/<username>/Documents/github/outlook-ai-assistant
+PLIST     = ~/Library/LaunchAgents/<plist-filename>
+PLIST_SRC = <repo-dir>/<plist-filename>
+SERVER    = https://localhost:3000
 ```
+
+> The plist filename is found in the repo root — it matches the launchd label inside the file. Check with:
+> ```bash
+> ls ~/Documents/github/outlook-ai-assistant/*.plist
+> ```
 
 ---
 
@@ -55,8 +61,9 @@ Edit `config.js`:
 ### 4. Register the background server (launchd)
 
 ```bash
-cp com.kejiali.outlook-addin-server.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.kejiali.outlook-addin-server.plist
+PLIST=$(ls *.plist | head -1)
+cp "$PLIST" ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/"$PLIST"
 ```
 
 ### 5. Verify server is running
@@ -87,8 +94,9 @@ curl -sk https://localhost:3000/taskpane.html | head -1
 ### Restart
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/com.kejiali.outlook-addin-server.plist
-launchctl load  ~/Library/LaunchAgents/com.kejiali.outlook-addin-server.plist
+PLIST=$(ls ~/Library/LaunchAgents/*.plist | xargs grep -l "outlook-ai-assistant\|outlook-addin" 2>/dev/null | head -1)
+launchctl unload "$PLIST"
+launchctl load   "$PLIST"
 sleep 2
 curl -sk https://localhost:3000/taskpane.html | head -1
 ```
@@ -102,7 +110,8 @@ tail -50 ~/Documents/github/outlook-ai-assistant/server.log
 ### Stop permanently
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/com.kejiali.outlook-addin-server.plist
+PLIST=$(ls ~/Library/LaunchAgents/*.plist | xargs grep -l "outlook-ai-assistant\|outlook-addin" 2>/dev/null | head -1)
+launchctl unload "$PLIST"
 ```
 
 ---
@@ -148,9 +157,10 @@ Server isn't running or cert isn't trusted.
 # Check server
 curl -sk https://localhost:3000/taskpane.html | head -1
 
-# If empty — restart
-launchctl unload ~/Library/LaunchAgents/com.kejiali.outlook-addin-server.plist
-launchctl load   ~/Library/LaunchAgents/com.kejiali.outlook-addin-server.plist
+# If empty — find and restart the launchd service
+PLIST=$(ls ~/Library/LaunchAgents/*.plist | xargs grep -l "outlook-ai-assistant\|outlook-addin" 2>/dev/null | head -1)
+launchctl unload "$PLIST"
+launchctl load   "$PLIST"
 ```
 
 If the server starts but Outlook still rejects it, the cert may not be trusted. Re-run:
@@ -172,9 +182,9 @@ var OPENCLAW_BASE_URL = "http://127.0.0.1:8402/v1";        // ❌ blocked by Web
 
 OpenClaw's local proxy (`127.0.0.1:8402`) isn't running. Start OpenClaw, or switch to the OpenAI provider in the task pane.
 
-### `API error: 该令牌已过期` (token expired)
+### API error with non-English message (e.g. token expired / auth failure)
 
-The API key in `config.js` has expired or is invalid. Replace it with a fresh key.
+This is typically an environment-specific issue — the API key in `config.js` may be expired, rate-limited, or from a third-party proxy that has its own auth layer. Replace it with a fresh key from your provider's console.
 
 ### Manifest sideload fails — "Sorry, we can't complete this operation"
 
