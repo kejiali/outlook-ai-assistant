@@ -11,6 +11,7 @@ A Microsoft Outlook Add-in for Mac that drafts email replies powered by AI — s
 ## Features
 
 - **One-click reply drafting** — reads the email you're viewing and generates a contextual reply
+- **Reading pane only** — the add-in is available exclusively when reading a received email. It does not appear when composing, replying to, or forwarding an email
 - **Four rewrite modes** — Make professional, Make concise, Fix grammar, Change tone (Formal / Friendly / Assertive / Empathetic)
 - **Dual provider routing** — switch between local (free) and cloud at runtime:
   - 🦞 **OpenClaw** — routes through a local proxy to Claude Sonnet via Amazon Bedrock. Zero API cost if you're already running [OpenClaw](https://openclaw.ai)
